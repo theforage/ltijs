@@ -10,7 +10,7 @@ function _assertClassBrand(e, t, n) { if ("function" == typeof e ? e === t : e.h
 const got = require('../../Utils/Http');
 const crypto = require('crypto');
 const _url = require('fast-url-parser');
-const provDynamicRegistrationDebug = require('debug')('provider:dynamicRegistrationService');
+const provDynamicRegistrationDebug = require('../../Utils/Logger')('provider:dynamicRegistrationService');
 const Objects = require('../../Utils/Objects');
 var _name = /*#__PURE__*/new WeakMap();
 var _redirectUris = /*#__PURE__*/new WeakMap();
@@ -135,7 +135,11 @@ class DynamicRegistration {
     });
 
     // Returing message indicating the end of registration flow
-    return '<script>(window.opener || window.parent).postMessage({subject:"org.imsglobal.lti.close"}, "*");</script>';
+    return {
+      configuration,
+      platform: registered,
+      message: '<script>(window.opener || window.parent).postMessage({subject:"org.imsglobal.lti.close"}, "*");</script>'
+    };
   }
 }
 function _buildUrl(url, path) {
